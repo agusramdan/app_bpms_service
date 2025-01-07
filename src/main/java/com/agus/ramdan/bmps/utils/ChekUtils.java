@@ -1,7 +1,7 @@
-package com.agus.ramdan.bpms.utils;
+package com.agus.ramdan.bmps.utils;
 
-import com.agus.ramdan.bpms.exception.NoContentException;
-import com.agus.ramdan.bpms.exception.ResourceNotFoundException;
+import com.agus.ramdan.bmps.exception.NoContentException;
+import com.agus.ramdan.bmps.exception.ResourceNotFoundException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.data.util.Streamable;

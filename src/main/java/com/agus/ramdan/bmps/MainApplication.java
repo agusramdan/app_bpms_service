@@ -1,4 +1,4 @@
-package com.agus.ramdan.bpms;
+package com.agus.ramdan.bmps;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

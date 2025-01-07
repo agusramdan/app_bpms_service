@@ -1,4 +1,4 @@
-package com.agus.ramdan.bpms.utils;
+package com.agus.ramdan.bmps.utils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 

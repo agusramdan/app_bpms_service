@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>agus.ramdan</groupId>
-    <artifactId>app_bpms_service</artifactId>
+    <artifactId>app_bmps_service</artifactId>
     <version>2025.0.1</version>
     <name>App BPMS Service</name>
     <description>App BPMS Service</description>
@@ -223,7 +223,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>app_bpms_service</finalName>
+        <finalName>app_bmps_service</finalName>
     </build>
 
 </project>

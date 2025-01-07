@@ -1,6 +1,6 @@
-package com.agus.ramdan.bpms.repository;
+package com.agus.ramdan.bmps.repository;
 
-import com.agus.ramdan.bpms.domain.Customer;
+import com.agus.ramdan.bmps.domain.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {

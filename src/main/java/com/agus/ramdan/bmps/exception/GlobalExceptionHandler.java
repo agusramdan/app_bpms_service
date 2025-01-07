@@ -1,4 +1,4 @@
-package com.agus.ramdan.bpms.exception;
+package com.agus.ramdan.bmps.exception;
 
 import java.util.Date;
 

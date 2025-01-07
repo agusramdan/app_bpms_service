@@ -1,4 +1,4 @@
-package com.agus.ramdan.bpms.utils;
+package com.agus.ramdan.bmps.utils;
 // copy from https://ashokma.com/posts/Fix-org-springframework-beans-BeanUtils-ignore-null-values-on-copying-properties
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

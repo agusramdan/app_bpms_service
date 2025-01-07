@@ -1,4 +1,4 @@
-package com.agus.ramdan.bpms;
+package com.agus.ramdan.bmps;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

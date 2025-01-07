@@ -1,11 +1,11 @@
-package com.agus.ramdan.bpms.controller;
+package com.agus.ramdan.bmps.controller;
 
-import com.agus.ramdan.bpms.domain.Customer;
-import com.agus.ramdan.bpms.exception.ResourceNotFoundException;
-import com.agus.ramdan.bpms.repository.CustomerRepository;
-import com.agus.ramdan.bpms.utils.BeanUtils;
-import com.agus.ramdan.bpms.utils.OffsetBasedPageRequest;
-import com.agus.ramdan.bpms.utils.ChekUtils;
+import com.agus.ramdan.bmps.domain.Customer;
+import com.agus.ramdan.bmps.exception.ResourceNotFoundException;
+import com.agus.ramdan.bmps.repository.CustomerRepository;
+import com.agus.ramdan.bmps.utils.BeanUtils;
+import com.agus.ramdan.bmps.utils.OffsetBasedPageRequest;
+import com.agus.ramdan.bmps.utils.ChekUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/bpms/customer")
+@RequestMapping("/api/bmps/customer")
 public class CustomerController {
     @Autowired
     CustomerRepository repository;
