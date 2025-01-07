@@ -1,8 +1,8 @@
 package com.agus.ramdan.bpms.controller;
 
-import com.agus.ramdan.bpms.domain.ClientCompany;
+import com.agus.ramdan.bpms.domain.Customer;
 import com.agus.ramdan.bpms.exception.ResourceNotFoundException;
-import com.agus.ramdan.bpms.repository.ClientCompanyRepository;
+import com.agus.ramdan.bpms.repository.CustomerRepository;
 import com.agus.ramdan.bpms.utils.BeanUtils;
 import com.agus.ramdan.bpms.utils.OffsetBasedPageRequest;
 import com.agus.ramdan.bpms.utils.ChekUtils;
@@ -23,16 +23,16 @@ import java.util.List;
 @RequestMapping("/api/bpms/customer")
 public class CustomerController {
     @Autowired
-    ClientCompanyRepository repository;
+    CustomerRepository repository;
 
     @GetMapping("")
     @Operation(summary = "Get All")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ClientCompany.class)))),
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = Customer.class)))),
             @ApiResponse(responseCode = "204", description = "Data not found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid tag value", content = @Content) })
-    public ResponseEntity<List<ClientCompany>> getAll(
+    public ResponseEntity<List<Customer>> getAll(
             @RequestParam(value = "offset", required = false, defaultValue = "0") int offset,
             @RequestParam(value = "limit", required = false, defaultValue = "25") int limit
     ) {
@@ -46,9 +46,9 @@ public class CustomerController {
     @Operation(summary = "Get By Id")
     @ApiResponses(value = {
             @ApiResponse(description = "successful operation",content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ClientCompany.class)), })
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Customer.class)), })
     })
-    public ResponseEntity<ClientCompany> getById(@PathVariable("id") long id)
+    public ResponseEntity<Customer> getById(@PathVariable("id") long id)
             throws ResourceNotFoundException {
         var data = ChekUtils.getOrThrow(repository.findById(id),()-> "Data not found for this id :: " + id);
         return ResponseEntity.ok().body(data);
@@ -57,9 +57,9 @@ public class CustomerController {
     @Operation(summary = "Create")
     @ApiResponses(value = {
             @ApiResponse(description = "successful operation",content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ClientCompany.class)), })
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Customer.class)), })
     })
-    public ResponseEntity<ClientCompany> postCreate(@RequestBody ClientCompany new_data) {
+    public ResponseEntity<Customer> postCreate(@RequestBody Customer new_data) {
         var data = repository.save(new_data);
         return ResponseEntity.status(HttpStatus.CREATED).body(data);
     }
@@ -68,11 +68,11 @@ public class CustomerController {
     @Operation(summary = "Update Data")
     @ApiResponses(value = {
             @ApiResponse(description = "successful operation",content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ClientCompany.class)), })
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Customer.class)), })
     })
-    public ResponseEntity<ClientCompany> putUpdate(
+    public ResponseEntity<Customer> putUpdate(
             @PathVariable("id") long id,
-            @RequestBody ClientCompany update_data)
+            @RequestBody Customer update_data)
             throws ResourceNotFoundException {
         var data = ChekUtils.getOrThrow(repository.findById(id),()-> "Data not found for this id :: " + id);
         BeanUtils.copyNonNullProperties(update_data, data);
