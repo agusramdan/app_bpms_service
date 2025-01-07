@@ -11,8 +11,8 @@
     <groupId>agus.ramdan</groupId>
     <artifactId>app_bmps_service</artifactId>
     <version>2025.0.1</version>
-    <name>App BPMS Service</name>
-    <description>App BPMS Service</description>
+    <name>App BMPS Service</name>
+    <description>App BMPS Service</description>
     <properties>
         <java.version>1.8</java.version>
         <org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
@@ -97,16 +97,16 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.mariadb.jdbc</groupId>-->
+<!--            <artifactId>mariadb-java-client</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>mysql</groupId>-->
+<!--            <artifactId>mysql-connector-java</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
