@@ -54,6 +54,7 @@ public class CustomerController {
         return ResponseEntity.ok().body(data);
     }
 
+    @PostMapping
     @Operation(summary = "Create")
     @ApiResponses(value = {
             @ApiResponse(description = "successful operation",content = {
@@ -84,7 +85,8 @@ public class CustomerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "successful operation")})
     @Operation(summary = "Delete Data By Id")
-    public ResponseEntity<HttpStatus> deleteData(@PathVariable("id") long id) {
+    public ResponseEntity<HttpStatus> deleteData(@PathVariable("id") long id) throws ResourceNotFoundException{
+        var data = ChekUtils.getOrThrow(repository.findById(id),()-> "Data not found for this id :: " + id);
         repository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
