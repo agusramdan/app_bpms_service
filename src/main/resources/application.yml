@@ -1,0 +1,64 @@
+---
+spring:
+  application:
+    name: APP-BMPS-SERVICE
+
+---
+server:
+  port: 8080
+  error:
+    include-stacktrace: never
+  servlet:
+    session:
+      cookie:
+        http-only: true
+# 1 days = 1 * 24 * 60 * 60
+cookie:
+  maxAge: 86400
+
+management:
+  server:
+    port: 7180
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+  security:
+    enabled: false
+
+spring:
+  jmx:
+    enabled: true
+
+  main:
+    lazy-initialization: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/deposit_machine
+    username: dm_user
+    password: dm_user
+
+  jpa:
+    # Hibernate ddl auto (create, create-drop, validate, update)
+    hibernate.ddl-auto: validate
+
+    properties:
+      org:
+        hibernate:
+          envers:
+            audit_table_suffix: _hist
+            #revision_field_name: rev
+            #revision_type_field_name: revtype
+            store_data_at_delete: true
+
+
+  flyway:
+    enabled: false
+
+feign:
+  hystrix:
+    enabled: true
+
