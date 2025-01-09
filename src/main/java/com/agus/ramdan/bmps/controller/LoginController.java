@@ -2,6 +2,7 @@ package com.agus.ramdan.bmps.controller;
 
 import com.agus.ramdan.bmps.dto.LoginRequest;
 import com.agus.ramdan.bmps.dto.LoginResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +41,7 @@ public class LoginController {
     RestTemplate restTemplate;
 
     @PostMapping
+    @Operation(summary = "For testing and development integration with keycloak")
     public ResponseEntity<LoginResponse> login (@RequestBody LoginRequest request) throws Exception {
         log.info("Executing login");
         HttpHeaders headers = new HttpHeaders();
