@@ -9,7 +9,7 @@ services:
       - POSTGRES_PASSWORD=$YOUR_PASSWORD
       - POSTGRES_DB=$YOUR_DB_NAME
     ports:
-      - "5432:$POSTGRES_DOCKER_PORT"
+      - "$POSTGRES_DOCKER_PORT:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -29,7 +29,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
     ports:
-      - "8080:$APP_BMPS_DOCKER_PORT"
+      - "$APP_BMPS_DOCKER_PORT:8080"
 
 volumes:
   pgdata:
