@@ -62,3 +62,5 @@ feign:
   hystrix:
     enabled: true
 
+keycloak:
+  enabled: false

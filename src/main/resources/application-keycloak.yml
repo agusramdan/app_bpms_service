@@ -1,6 +1,7 @@
 ---
 #Keycloak authorization properties
 keycloak:
+  enabled: true
   realm: demo
   resource: ${spring.application.name}
   auth-server-url: http://localhost:8080/auth

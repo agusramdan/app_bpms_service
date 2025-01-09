@@ -5,6 +5,7 @@ import com.agus.ramdan.bmps.dto.LoginResponse;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,13 +27,13 @@ import javax.servlet.http.HttpServletRequest;
 @Log4j2
 public class LoginController {
 
-    @Value("${app.keycloak.login.url}")
+    @Value("${app.keycloak.login.url:none}")
     private String loginUrl;
-    @Value("${app.keycloak.client-secret}")
+    @Value("${app.keycloak.client-secret:none}")
     private String clientSecret;
-    @Value("${app.keycloak.grant-type}")
+    @Value("${app.keycloak.grant-type:none}")
     private String grantType;
-    @Value("${app.keycloak.client-id}")
+    @Value("${app.keycloak.client-id:none}" )
     private String clientId;
 
     @Autowired
