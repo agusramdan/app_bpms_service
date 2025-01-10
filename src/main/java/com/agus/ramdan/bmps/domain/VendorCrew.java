@@ -25,6 +25,9 @@ public class VendorCrew {
     @Schema(description = "Name")
     private String name;
 
+    @Column(name = "vendor_id", nullable = false)
+    private Long vendor_id;
+
     @Column
     private String nik;
 
