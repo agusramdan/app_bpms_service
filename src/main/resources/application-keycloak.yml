@@ -4,14 +4,14 @@ keycloak:
   enabled: true
   realm: demo
   resource: ${spring.application.name}
-  auth-server-url: http://localhost:8080/auth
+  auth-server-url: http://keycloak-server:7080/auth
   ssl-required: external
   use-resource-role-mappings: true
 
 app:
   keycloak:
     login:
-      url: http://localhost:8080/auth/realms/demo/protocol/openid-connect/token
+      url: http://keycloak-server:7080/auth/realms/demo/protocol/openid-connect/token
     grant-type: password
     client-id: ${keycloak.resource}
     client-secret: 53905103-24fd-49ca-b0b7-b08ff0ce3355
