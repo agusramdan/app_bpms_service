@@ -41,12 +41,14 @@ services:
     environment:
       KC_HOSTNAME: merahputih-id.tech
       KC_HOSTNAME_PORT: 7080
+      KC_HOSTNAME_STRICT: 'false'
       KC_HOSTNAME_STRICT_HTTPS: "false"
       KC_HOSTNAME_STRICT_BACKCHANNEL: "true"
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_HEALTH_ENABLED: "true"
       KC_LOG_LEVEL: info
+      KC_HTTP_ENABLED: "true"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:7080/health/ready"]
       interval: 15s
