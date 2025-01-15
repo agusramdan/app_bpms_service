@@ -37,7 +37,7 @@ services:
       KC_PROXY: edge
     ports:
       - 7080:7080
-      - - 7080:7080
+      - 7443:7443
     mem_limit: 500m
     command: start-dev
     container_name: keycloak
