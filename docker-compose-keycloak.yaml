@@ -37,7 +37,7 @@ services:
       KC_PROXY_HEADERS: xforwarded
       KC_HTTP_ENABLED: true
       KC_HOSTNAME_STRICT: false
-      KC_HOSTNAME_URL: http://${KEYCLOAK_DOMAIN}
+      KC_HOSTNAME: ${KEYCLOAK_DOMAIN}
       KC_HOSTNAME_PORT: 7080
     ports:
       - 7080:7080
