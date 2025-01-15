@@ -1,11 +1,6 @@
 volumes:
   mariadb_data:
 
-networks:
-  keycloak:
-    ipam:
-      config:
-        - subnet: ${SUBNET:-172.16.0.0/29}
 
 services:
   mariadb:
@@ -20,8 +15,6 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
     restart: always
-    networks:
-      - keycloak
 
   keycloak:
     image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION:-latest}
@@ -44,8 +37,6 @@ services:
     command: start-dev
     container_name: keycloak
     restart: always
-    networks:
-      - keycloak
     depends_on:
       - mariadb
 
