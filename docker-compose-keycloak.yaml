@@ -24,19 +24,15 @@ services:
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: ${MARIADB_KEYCLOAK_PASSWORD:-keycloak}
       KC_DB_URL_HOST: mariadb
-      KEYCLOAK_HTTP_PORT: 7080
-      KEYCLOAK_HTTPS_PORT: 7443
-      KEYCLOAK_HTTPS_PROTOCOL: proxy-https
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      KEYCLOAK_FRONTEND_URL: https://merahputih-id.tech
     mem_limit: 500m
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:7080/health/ready"]
       interval: 15s
       timeout: 2s
       retries: 15
-    command: start --hostname merahputih-id.tech --hostname-strict false --hostname-admin-url https://merahputih-id.tech
+    command: start-dev --https-port=7443 --http-port=7080
     ports:
       - 7080:7080
       - 7443:7443
