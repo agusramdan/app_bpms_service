@@ -32,13 +32,19 @@ services:
       KC_HOSTNAME_DEBUG: true
       KC_HOSTNAME_STRICT: false
       KC_HOSTNAME_URL: http://merahputih-id.tech:7080/
+      KC_HOSTNAME_ADMIN_URL: http://merahputih-id.tech:7080/
       KC_HOSTNAME_STRICT_HTTPS: false
       KC_PROXY: edge
+    mem_limit: 500m
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7080/health/ready"]
+      interval: 15s
+      timeout: 2s
+      retries: 15
+    command: ["start-dev", "--http-port", "7080", "--https-port", "7443"]
     ports:
       - 7080:7080
       - 7443:7443
-    mem_limit: 500m
-    command: [ "start-dev", "--http-port", "7080", "--https-port", "7443" ]
     container_name: keycloak
     restart: always
     depends_on:
