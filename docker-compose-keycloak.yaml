@@ -34,13 +34,11 @@ services:
       KC_HOSTNAME_URL: http://merahputih-id.tech:7080/
       KC_HOSTNAME_STRICT_HTTPS: false
       KC_PROXY: edge
-      KEYCLOAK_HTTP_PORT: 7080
-      KEYCLOAK_HTTPS_PORT: 7443
     ports:
-      - 7080:8080
-      - 7443:8443
+      - 7080:7080
+      - 7443:7443
     mem_limit: 500m
-    command: start
+    command: [ "start-dev", "--http-port", "7080", "--https-port", "7443" ]
     container_name: keycloak
     restart: always
     depends_on:
