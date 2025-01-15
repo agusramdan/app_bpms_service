@@ -42,10 +42,8 @@ services:
     ports:
       - 7080:7080
     mem_limit: 500m
-    command: start
+    command: start-dev
     container_name: keycloak
-    volumes:
-      - ./keycloak/themes:/opt/keycloak/themes
     restart: always
     networks:
       - local
