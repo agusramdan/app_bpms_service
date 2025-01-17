@@ -26,6 +26,7 @@ services:
       KC_DB_URL_HOST: mariadb
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HOSTNAME_STRICT_BACKCHANNEL: false
     mem_limit: 500m
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:7080/health/ready"]
