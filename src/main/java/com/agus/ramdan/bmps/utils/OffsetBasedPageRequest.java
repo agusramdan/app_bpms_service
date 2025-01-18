@@ -1,4 +1,5 @@
 package com.agus.ramdan.bmps.utils;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
@@ -66,6 +67,11 @@ public class OffsetBasedPageRequest implements Pageable, Serializable {
     @Override
     public Pageable first() {
         return new OffsetBasedPageRequest(0, getPageSize(), getSort());
+    }
+
+    @Override
+    public Pageable withPage(int pageNumber) {
+        return new OffsetBasedPageRequest((pageNumber-1)*this.getPageSize(), this.getPageSize(), this.getSort());
     }
 
     @Override
