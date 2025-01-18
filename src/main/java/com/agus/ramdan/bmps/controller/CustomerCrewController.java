@@ -1,17 +1,17 @@
 package com.agus.ramdan.bmps.controller;
 
+import com.agus.ramdan.bmps.domain.Customer;
 import com.agus.ramdan.bmps.domain.CustomerCrew;
 import com.agus.ramdan.bmps.exception.ResourceNotFoundException;
 import com.agus.ramdan.bmps.repository.CustomerCrewRepository;
-import com.agus.ramdan.bmps.utils.BeanUtils;
-import com.agus.ramdan.bmps.utils.ChekUtils;
-import com.agus.ramdan.bmps.utils.OffsetBasedPageRequest;
+import com.agus.ramdan.bmps.utils.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +34,14 @@ public class CustomerCrewController {
             @ApiResponse(responseCode = "400", description = "Invalid tag value", content = @Content) })
     public ResponseEntity<List<CustomerCrew>> getAll(
             @RequestParam(value = "offset", required = false, defaultValue = "0") int offset,
-            @RequestParam(value = "limit", required = false, defaultValue = "25") int limit
+            @RequestParam(value = "limit", required = false, defaultValue = "25") int limit,
+            @RequestParam(value = "search", required = false) String search
     ) {
         var pageable = new OffsetBasedPageRequest(offset,limit);
-        var page = repository.findAll(pageable);
+        val builder = new BaseSpecificationsBuilder<CustomerCrew>();
+        builder.withSearch(search);
+        val spec = builder.build(BaseSpecifications::new);
+        var page = repository.findAll(spec,pageable);
         ChekUtils.ifEmptyThrow(page);
         return new ResponseEntity<>(page.getContent(), HttpStatus.OK);
     }

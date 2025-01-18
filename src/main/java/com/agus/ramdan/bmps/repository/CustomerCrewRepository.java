@@ -1,7 +1,7 @@
 package com.agus.ramdan.bmps.repository;
 
 import com.agus.ramdan.bmps.domain.CustomerCrew;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
 
-public interface CustomerCrewRepository extends JpaRepository<CustomerCrew, Long> {
+public interface CustomerCrewRepository extends JpaRepositoryImplementation<CustomerCrew, Long>  {
 }
