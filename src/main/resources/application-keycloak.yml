@@ -11,7 +11,7 @@ keycloak:
 app:
   keycloak:
     login:
-      url: http://keycloak-server:7080/auth/realms/demo/protocol/openid-connect/token
+      url: ${keycloak.auth-server-url}/realms/demo/protocol/openid-connect/token
     grant-type: password
     client-id: ${keycloak.resource}
     client-secret: 53905103-24fd-49ca-b0b7-b08ff0ce3355
