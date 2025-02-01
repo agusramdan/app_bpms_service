@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Getter
 public class BadRequestException extends Exception{
     private static final long serialVersionUID = 1L;
-    private Errors errors;
+    private ErrorValidation[] errors;
     public BadRequestException(String message){
         super(message);
     }
 
-    public BadRequestException(String message, Errors errors) {
+    public BadRequestException(String message, ErrorValidation[] errors) {
         super(message);
         this.errors = errors;
     }

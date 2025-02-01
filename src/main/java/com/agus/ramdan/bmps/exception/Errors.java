@@ -8,8 +8,8 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Getter
 public class Errors {
-    private final String code;
     private final Date timestamp;
     private final String message;
-    private final ErrorDetails[] details;
+    private final String details;
+    private final ErrorValidation[] errors;
 }
