@@ -1,5 +1,6 @@
 package com.agus.ramdan.bmps.utils;
 
+import org.hibernate.query.criteria.internal.predicate.InPredicate;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -42,6 +43,8 @@ public class BaseSpecifications<U> implements Specification<U> {
                 return builder.like(root.get(criteria.getKey()), "%" + criteria.getValue());
             case CONTAINS:
                 return builder.like(root.get(criteria.getKey()), "%" + criteria.getValue() + "%");
+            case IN:
+                return builder.in(root.get("id")).value(criteria.getValue());
             default:
                 return null;
         }

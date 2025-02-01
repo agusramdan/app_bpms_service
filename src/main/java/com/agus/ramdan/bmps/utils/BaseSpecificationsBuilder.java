@@ -1,9 +1,5 @@
 package com.agus.ramdan.bmps.utils;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +29,10 @@ public class BaseSpecificationsBuilder <U> {
     public final BaseSpecificationsBuilder<U> with(final String key, final String operation, final Object value, final String prefix, final String suffix) {
         return with(null, key, operation, value, prefix, suffix);
     }
-
+    public final BaseSpecificationsBuilder<U> ids_in(final Collection value) {
+        params.add(new SpecSearchCriteria(null, "id", SearchOperation.IN, value));
+        return this;
+    }
     public final BaseSpecificationsBuilder<U> with(final String precedenceIndicator, final String key, final String operation, final Object value, final String prefix, final String suffix) {
         SearchOperation op = SearchOperation.getSimpleOperation(operation.charAt(0));
         if (op != null) {
