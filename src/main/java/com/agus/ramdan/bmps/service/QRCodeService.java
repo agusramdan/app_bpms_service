@@ -1,6 +1,7 @@
 package com.agus.ramdan.bmps.service;
 
 import com.agus.ramdan.bmps.domain.QRCode;
+import com.agus.ramdan.bmps.dto.QRCodeMapper;
 import com.agus.ramdan.bmps.dto.QRCodeRequest;
 import com.agus.ramdan.bmps.dto.QRCodeResponse;
 import com.agus.ramdan.bmps.exception.BadRequestException;
@@ -12,12 +13,14 @@ import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class QRCodeService {
     private final RandomStringGenerator generator;
     private final QRCodeRepository repository;
-
+    private final QRCodeMapper mapper;
     public QRCode createCode(QRCode request) {
         var generate_code = !StringUtils.hasText(request.getCode());
         while (generate_code) {
@@ -28,12 +31,12 @@ public class QRCodeService {
     }
 
     public QRCodeResponse createCode(QRCodeRequest request) {
-        var qrCode = new QRCode();
-        BeanUtils.copyNonNullProperties(request, qrCode);
+        var qrCode = mapper.fromQRCodeRequest(request);
         qrCode = this.createCode(qrCode);
-        val response = new QRCodeResponse();
-        BeanUtils.copyNonNullProperties(qrCode,response);
-        return response;
+        return mapper.toQRCodeResponse(qrCode);
+    }
+    public Optional<QRCodeResponse> findByCode(String code) {
+        return repository.findByCode(code).map(mapper::toQRCodeResponse);
     }
     public QRCodeResponse validateCode(String code) throws ResourceNotFoundException, BadRequestException {
         val qrCode = repository.findByCode(code).orElseThrow(()->new ResourceNotFoundException("QR Code Not Found"));
