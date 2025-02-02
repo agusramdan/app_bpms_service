@@ -16,8 +16,8 @@ services:
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
-  ports:
-    - "9411:9411"
+    ports:
+      - "9411:9411"
 
   app_bmps_service:
     image: 'agusramdan/app_bmps_service:latest'
