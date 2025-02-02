@@ -20,7 +20,7 @@ services:
       - "9411:9411"
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
@@ -29,7 +29,7 @@ services:
       - "9200:9200"
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:8.10.0
+    image: docker.elastic.co/logstash/logstash:8.11.0
     container_name: logstash
     volumes:
       - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
@@ -47,6 +47,8 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
+    environment:
+      - xpack.security.enabled: false
 
   app_bmps_service:
     image: 'agusramdan/app_bmps_service:latest'
