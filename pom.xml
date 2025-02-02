@@ -255,6 +255,12 @@
             <artifactId>httpclient</artifactId>
 <!--            <version>4.5.13</version>-->
         </dependency>
+        <!-- JJWT library untuk membuat dan memverifikasi JWT -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -287,5 +293,4 @@
         </plugins>
         <finalName>app_bmps_service</finalName>
     </build>
-
 </project>

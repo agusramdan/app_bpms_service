@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "t_service_location")
 @Schema
+@EntityListeners(AuditingEntityListener.class)
 public class ServiceLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dm_sec_service_location_gen")
