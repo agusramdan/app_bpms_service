@@ -5,4 +5,4 @@ spring:
     base-url: http://zipkin:9411
   sleuth:
     sampler:
-      probability=1.0  # 100% request akan ditrace
+      probability: 1.0  # 100% request akan ditrace
