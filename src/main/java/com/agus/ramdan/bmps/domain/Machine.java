@@ -52,12 +52,12 @@ public class Machine {
     private Long service_location_id;
 
     @Column(name = "code")
-    @JsonProperty(index = 2)
+    @JsonProperty(index = 4)
     @Schema(description = "Code")
     private String code;
 
     @Column(name = "serial_number")
-    @JsonProperty(index = 2)
+    @JsonProperty(index = 5)
     @Schema(description = "Serial Number")
     private String serial_number;
 
