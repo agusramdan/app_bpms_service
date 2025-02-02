@@ -26,6 +26,7 @@ services:
     container_name: app_bmps_service
     depends_on:
       - db_postgres
+      - zipkin
     environment:
       - POSTGRES_USER=$YOUR_USERNAME
       - POSTGRES_PASSWORD=$YOUR_PASSWORD
