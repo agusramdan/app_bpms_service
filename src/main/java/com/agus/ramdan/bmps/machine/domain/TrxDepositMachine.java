@@ -24,7 +24,10 @@ public class TrxDepositMachine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dm_sec_trx_deposit_machine_gen")
-    @SequenceGenerator(name = "dm_sec_trx_deposit_machine_gen", sequenceName = "dm_sec_trx_deposit", allocationSize = 1)
+    @SequenceGenerator(name = "dm_sec_trx_deposit_machine_gen",
+            sequenceName = "dm_sec_trx_deposit_machine", allocationSize = 1,
+            initialValue = 10
+    )
     @JsonProperty(index = 1)
     private Long id;
 

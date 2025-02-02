@@ -17,8 +17,12 @@ import java.time.LocalDateTime;
 public class TrxDepositMachineDenomination {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dm_sec_trx_deposit_machine_gen")
-    @SequenceGenerator(name = "dm_sec_trx_deposit_machine_denon_gen", sequenceName = "dm_sec_trx_deposit", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dm_sec_trx_deposit_machine_denon_gen")
+    @SequenceGenerator(name = "dm_sec_trx_deposit_machine_denon_gen",
+            sequenceName = "dm_sec_trx_deposit_machine_denon",
+            allocationSize = 1,
+            initialValue = 10
+    )
     @JsonProperty(index = 1)
     private Long id;
 
