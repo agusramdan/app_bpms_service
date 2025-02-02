@@ -47,8 +47,6 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
-    environment:
-      - xpack.security.enabled: false
 
   app_bmps_service:
     image: 'agusramdan/app_bmps_service:latest'
