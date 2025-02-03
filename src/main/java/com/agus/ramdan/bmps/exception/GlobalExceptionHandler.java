@@ -14,6 +14,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+
+import javax.validation.ConstraintViolationException;
+
 @ControllerAdvice
 @Slf4j
 @RequiredArgsConstructor
@@ -26,11 +29,22 @@ public class GlobalExceptionHandler {
         val error = new Errors(new Date(), ex.getMessage(), traceId, spanId, request.getDescription(false), null);
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
-
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Errors> handleMethodArgumentNotValidException(ConstraintViolationException ex, WebRequest request) {
+        String traceId = tracer.currentSpan() != null ? tracer.currentSpan().context().traceId() : "N/A";
+        String spanId = tracer.currentSpan() != null ? tracer.currentSpan().context().spanId() : "N/A";
+        log.error(String.format("trace_id=%s,spanId=%s:%s",traceId,spanId,ex.getMessage()),ex);
+        val errors = ex.getConstraintViolations().stream()
+                .map(violation -> new ErrorValidation(violation.getMessage(),String.valueOf(violation.getPropertyPath()),violation.getInvalidValue()) )
+                .collect(Collectors.toList()).toArray(new ErrorValidation[0]);
+        val error = new Errors(new Date(),"Validation Error",traceId,spanId, request.getDescription(false),errors);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Errors> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, WebRequest request) {
         String traceId = tracer.currentSpan() != null ? tracer.currentSpan().context().traceId() : "N/A";
         String spanId = tracer.currentSpan() != null ? tracer.currentSpan().context().spanId() : "N/A";
+        log.error(String.format("trace_id=%s,spanId=%s:%s",traceId,spanId,ex.getMessage()),ex);
         BindingResult result = ex.getBindingResult();
         val errors = result.getFieldErrors().stream()
                 .map(violation -> new ErrorValidation(violation.getDefaultMessage(),violation.getField(),violation.getRejectedValue()) )
@@ -43,6 +57,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> badRequestException(BadRequestException ex, WebRequest request) {
         String traceId = tracer.currentSpan() != null ? tracer.currentSpan().context().traceId() : "N/A";
         String spanId = tracer.currentSpan() != null ? tracer.currentSpan().context().spanId() : "N/A";
+        log.error(String.format("trace_id=%s,spanId=%s:%s",traceId,spanId,ex.getMessage()),ex);
         val error = new Errors(new Date(), ex.getMessage(),traceId,spanId,request.getDescription(false),ex.getErrors());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
@@ -54,9 +69,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> globleExcpetionHandler(Exception ex, WebRequest request) {
-        log.error(ex.getMessage(),ex);
         String traceId = tracer.currentSpan() != null ? tracer.currentSpan().context().traceId() : "N/A";
         String spanId = tracer.currentSpan() != null ? tracer.currentSpan().context().spanId() : "N/A";
+        log.error(String.format("trace_id=%s,spanId=%s:%s",traceId,spanId,ex.getMessage()),ex);
         val error = new Errors(new Date(), "Internal Server Error Please Contact Helpdesk",traceId,spanId, request.getDescription(false),null);
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -51,6 +51,8 @@ public class TrxDepositMachine {
     private String qr_code;
     private String username;
     private String user_type;
+    private String crew_code;
+    private String crew_type;
     private String partner_code;
     private String partner_type;
     private String machine_deposit_code;
@@ -60,6 +62,7 @@ public class TrxDepositMachine {
     private String partner_trx_no;
     private String internal_trx_number;
     private LocalDateTime trx_date;
+
     @Column(name = "amount", precision = 12, scale = 2, nullable = false)
     @Schema(example = "10000.00", required = true)
     protected BigDecimal amount;
@@ -69,4 +72,10 @@ public class TrxDepositMachine {
     @OrderBy("denomination")
     private List<TrxDepositMachineDenomination> denominations = new ArrayList<>();
 
+    @PrePersist
+    protected void onCreate() {
+        if (trx_date == null) {
+            trx_date = LocalDateTime.now();
+        }
+    }
 }

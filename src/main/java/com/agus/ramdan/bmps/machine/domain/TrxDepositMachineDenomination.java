@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -39,5 +40,8 @@ public class TrxDepositMachineDenomination {
     @Schema(example = "10000.00", required = true)
     @JsonProperty(index = 5)
     protected BigDecimal amount;
+
+    @Pattern(regexp = "coin|note", message = "Invalid type. Only 'coin' or 'note' are allowed.")
+    private String type;
 
 }

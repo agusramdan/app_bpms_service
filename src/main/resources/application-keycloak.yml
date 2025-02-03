@@ -16,7 +16,6 @@ app:
     client-id: ${keycloak.resource}
     client-secret: 53905103-24fd-49ca-b0b7-b08ff0ce3355
 
-
 spring:
   main:
     allow-circular-references: true

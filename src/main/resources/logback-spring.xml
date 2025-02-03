@@ -12,6 +12,33 @@
         <destination>logstash:5000</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{"app_name": "${appName}"}</customFields>
+<!--            <providers>-->
+<!--                &lt;!&ndash; Menambahkan Timestamp &ndash;&gt;-->
+<!--                <timestamp>-->
+<!--                    <fieldName>timestamp</fieldName>-->
+<!--                </timestamp>-->
+
+<!--                &lt;!&ndash; Menambahkan Trace ID &ndash;&gt;-->
+<!--                <mdc>-->
+<!--                    <fieldName>trace_id</fieldName>-->
+<!--                    <key>traceId</key>-->
+<!--                </mdc>-->
+
+<!--                &lt;!&ndash; Menambahkan Span ID (Opsional, jika menggunakan Sleuth) &ndash;&gt;-->
+<!--                <mdc>-->
+<!--                    <fieldName>span_id</fieldName>-->
+<!--                    <key>spanId</key>-->
+<!--                </mdc>-->
+
+<!--                &lt;!&ndash; Level Log &ndash;&gt;-->
+<!--                <level />-->
+<!--                <threadName />-->
+<!--                <loggerName />-->
+<!--                <message />-->
+
+<!--                &lt;!&ndash; Stacktrace jika ada error &ndash;&gt;-->
+<!--                <stackTrace />-->
+<!--            </providers>-->
         </encoder>
     </appender>
 

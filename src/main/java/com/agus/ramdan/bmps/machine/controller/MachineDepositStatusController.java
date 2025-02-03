@@ -24,8 +24,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -92,5 +97,21 @@ public class MachineDepositStatusController {
     public ResponseEntity<DepositMachineStatus> postCreate(@RequestBody @Valid DepositMachineStatus request) throws BadRequestException, ResourceNotFoundException {
         val response = repository.save(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+    @PostMapping("/un_available")
+    @Operation(summary = "Un Available")
+    @ApiResponses(value = {
+            @ApiResponse(description = "Un Available chek pint")
+    })
+    public ResponseEntity<Map<String,Object>> status_un_available(
+            @Min(value = 1, message = "Min 1 hours")
+            @Max(value = 10, message = "Max 10 hours")
+            @RequestParam(value = "expired", required = false, defaultValue = "2") int limit
+    ) {
+        val response = new HashMap<String,Object>();
+        LocalDateTime expired = LocalDateTime.now().minusHours(limit);
+        response.put("expired", expired);
+        response.put("count", repository.updateStatusUnAvailable(expired));
+        return ResponseEntity.ok().body(response);
     }
 }
