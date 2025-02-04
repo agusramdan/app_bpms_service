@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Errors> handleMethodArgumentNotValidException(ConstraintViolationException ex, WebRequest request) {
         String traceId = tracer.currentSpan() != null ? tracer.currentSpan().context().traceId() : "N/A";
         String spanId = tracer.currentSpan() != null ? tracer.currentSpan().context().spanId() : "N/A";
-        log.error(String.format("trace_id=%s,spanId=%s:%s",traceId,spanId,ex.getMessage()),ex);
+        log.error(String.format("trace_id=%s,span_id=%s:%s",traceId,spanId,"ConstraintViolationException"),ex);
         val errors = ex.getConstraintViolations().stream()
                 .map(violation -> new ErrorValidation(violation.getMessage(),String.valueOf(violation.getPropertyPath()),violation.getInvalidValue()) )
                 .collect(Collectors.toList()).toArray(new ErrorValidation[0]);
@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Errors> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, WebRequest request) {
         String traceId = tracer.currentSpan() != null ? tracer.currentSpan().context().traceId() : "N/A";
         String spanId = tracer.currentSpan() != null ? tracer.currentSpan().context().spanId() : "N/A";
-        log.error(String.format("trace_id=%s,spanId=%s:%s",traceId,spanId,ex.getMessage()),ex);
+        log.error(String.format("trace_id=%s,span_id=%s:%s",traceId,spanId,"MethodArgumentNotValidException"),ex);
         BindingResult result = ex.getBindingResult();
         val errors = result.getFieldErrors().stream()
                 .map(violation -> new ErrorValidation(violation.getDefaultMessage(),violation.getField(),violation.getRejectedValue()) )
@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> badRequestException(BadRequestException ex, WebRequest request) {
         String traceId = tracer.currentSpan() != null ? tracer.currentSpan().context().traceId() : "N/A";
         String spanId = tracer.currentSpan() != null ? tracer.currentSpan().context().spanId() : "N/A";
-        log.error(String.format("trace_id=%s,spanId=%s:%s",traceId,spanId,ex.getMessage()),ex);
+        log.error(String.format("trace_id=%s,span_id=%s:%s",traceId,spanId,ex.getMessage()),ex);
         val error = new Errors(new Date(), ex.getMessage(),traceId,spanId,request.getDescription(false),ex.getErrors());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
@@ -71,7 +71,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> globleExcpetionHandler(Exception ex, WebRequest request) {
         String traceId = tracer.currentSpan() != null ? tracer.currentSpan().context().traceId() : "N/A";
         String spanId = tracer.currentSpan() != null ? tracer.currentSpan().context().spanId() : "N/A";
-        log.error(String.format("trace_id=%s,spanId=%s:%s",traceId,spanId,ex.getMessage()),ex);
+        log.error(String.format("trace_id=%s,span_id=%s:%s",traceId,spanId,ex.getMessage()),ex);
         val error = new Errors(new Date(), "Internal Server Error Please Contact Helpdesk",traceId,spanId, request.getDescription(false),null);
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
