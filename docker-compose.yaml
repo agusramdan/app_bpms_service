@@ -72,11 +72,11 @@ services:
     ports:
       - "$APP_BMPS_DOCKER_PORT:8080"
 
-  api-cdm-service:
+  apicdmservice:
     image: 'agusramdan/api-cdm-service:latest'
     build:
       context: .
-    container_name: api-cdm-service
+    container_name: apicdmservice
     depends_on:
       - app_bmps_service
       - zipkin
@@ -86,9 +86,8 @@ services:
       - KEYCLOAK_RESOURCE=${APP_BPMS_KC_RESOURCE:-bpms}
       - KEYCLOAK_REALM=${APP_BPMS_KC_REALM:-demo}
       - KEYCLOAK_AUTH_SERVER_URL=${APP_BPMS_KC_AUTH_SERVER_URL:-https://merahputih-id.tech:9443/auth}
-
     ports:
-      - "8081:8080"
+      - "8082:8080"
 
 volumes:
   pgdata:
