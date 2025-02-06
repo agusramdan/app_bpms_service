@@ -4,8 +4,6 @@ import com.agus.ramdan.bmps.base.BaseCRUDController;
 import com.agus.ramdan.bmps.domain.Customer;
 import com.agus.ramdan.bmps.exception.ResourceNotFoundException;
 import com.agus.ramdan.bmps.repository.CustomerRepository;
-import com.agus.ramdan.bmps.utils.ChekUtils;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,19 +11,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping({"/api/bmps/customer","/api/bmps/web/customer","/api/bmps/crud/customer",})
+@RequestMapping({"/api/bmps/customer","/api/bmps/core/customer",})
 @RequiredArgsConstructor
-public class CustomerController implements BaseCRUDController<Customer,Long> {
+public class CustomerController implements BaseCRUDController<Customer,Long>{
 
     @Getter
     private final CustomerRepository repository;
@@ -64,15 +59,5 @@ public class CustomerController implements BaseCRUDController<Customer,Long> {
     @Override
     public ResponseEntity<Customer> putUpdate(Long aLong, Customer update_data) throws ResourceNotFoundException {
         return BaseCRUDController.super.putUpdate(aLong, update_data);
-    }
-
-    @DeleteMapping("/{id}")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "successful operation")})
-    @Operation(summary = "Delete Data By Id")
-    public ResponseEntity<HttpStatus> deleteData(@PathVariable("id") long id) throws ResourceNotFoundException{
-        var data = ChekUtils.getOrThrow(repository.findById(id),()-> "Data not found for this id :: " + id);
-        repository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
