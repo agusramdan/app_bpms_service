@@ -1,102 +1,69 @@
 package com.agus.ramdan.bmps.controller;
 
+import com.agus.ramdan.bmps.base.BaseCRUDController;
 import com.agus.ramdan.bmps.domain.Customer;
-import com.agus.ramdan.bmps.domain.QRCode;
 import com.agus.ramdan.bmps.exception.ResourceNotFoundException;
 import com.agus.ramdan.bmps.repository.CustomerRepository;
-import com.agus.ramdan.bmps.utils.*;
+import com.agus.ramdan.bmps.utils.ChekUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/bmps/customer")
-public class CustomerController {
-    @Autowired
-    CustomerRepository repository;
+@RequestMapping({"/api/bmps/customer","/api/bmps/web/customer","/api/bmps/crud/customer",})
+@RequiredArgsConstructor
+public class CustomerController implements BaseCRUDController<Customer,Long> {
 
-    @GetMapping("")
-    @Operation(summary = "Get All")
+    @Getter
+    private final CustomerRepository repository;
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = Customer.class)))),
-            @ApiResponse(responseCode = "204", description = "Data not found", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Invalid tag value", content = @Content) })
-    public ResponseEntity<List<Customer>> getAll(
-            @RequestParam(value = "offset", required = false, defaultValue = "0") int offset,
-            @RequestParam(value = "limit", required = false, defaultValue = "25") int limit,
-            @RequestParam(value = "search", required = false) String search,
-            @RequestParam(value = "ids", required = false) String ids
-    ) {
-        val builder = new BaseSpecificationsBuilder<Customer>();
-        if (StringUtils.hasText(ids)){
-            val list =Arrays.stream(ids.split(","))
-                    .map(String::trim) // Menghapus spasi di sekitar angka
-                    .map(Long::parseLong) // Mengonversi ke Long
-                    .collect(Collectors.toList());
-            builder.ids_in(list);
-            if (!list.isEmpty()){
-                limit = Math.max(list.size(),limit);
-            }
-        }
-        builder.withSearch(search);
-        val spec = builder.build(BaseSpecifications::new);
-        val pageable = new OffsetBasedPageRequest(offset,limit);
-        val page = repository.findAll(spec,pageable);
-        ChekUtils.ifEmptyThrow(page);
-        return new ResponseEntity<>(page.getContent(), HttpStatus.OK);
+                    content = @Content(mediaType = "application/json",array = @ArraySchema(schema = @Schema(implementation = Customer.class)))),
+            })
+    @Override
+    public ResponseEntity<List<Customer>> getAll(int offset, int limit, String search, String ids) {
+        return BaseCRUDController.super.getAll(offset, limit, search, ids);
     }
 
-    @GetMapping("/{id}")
-    @Operation(summary = "Get By Id")
     @ApiResponses(value = {
             @ApiResponse(description = "successful operation",content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = Customer.class)), })
     })
-    public ResponseEntity<Customer> getById(@PathVariable("id") long id)
-            throws ResourceNotFoundException {
-        var data = ChekUtils.getOrThrow(repository.findById(id),()-> "Data not found for this id :: " + id);
-        return ResponseEntity.ok().body(data);
+    @Override
+    public ResponseEntity<Customer> getById(Long aLong) throws ResourceNotFoundException {
+        return BaseCRUDController.super.getById(aLong);
     }
 
-    @PostMapping
-    @Operation(summary = "Create")
     @ApiResponses(value = {
             @ApiResponse(description = "successful operation",content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = Customer.class)), })
     })
-    public ResponseEntity<Customer> postCreate(@RequestBody Customer new_data) {
-        var data = repository.save(new_data);
-        return ResponseEntity.status(HttpStatus.CREATED).body(data);
+    @Override
+    public ResponseEntity<Customer> postCreate(Customer new_data) {
+        return BaseCRUDController.super.postCreate(new_data);
     }
 
-    @PutMapping("/{id}")
-    @Operation(summary = "Update Data")
     @ApiResponses(value = {
             @ApiResponse(description = "successful operation",content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = Customer.class)), })
     })
-    public ResponseEntity<Customer> putUpdate(
-            @PathVariable("id") long id,
-            @RequestBody Customer update_data)
-            throws ResourceNotFoundException {
-        var data = ChekUtils.getOrThrow(repository.findById(id),()-> "Data not found for this id :: " + id);
-        BeanUtils.copyNonNullProperties(update_data, data);
-        var result_data = repository.save(data);
-        return ResponseEntity.ok().body(result_data);
+    @Override
+    public ResponseEntity<Customer> putUpdate(Long aLong, Customer update_data) throws ResourceNotFoundException {
+        return BaseCRUDController.super.putUpdate(aLong, update_data);
     }
 
     @DeleteMapping("/{id}")
