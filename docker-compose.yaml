@@ -9,7 +9,7 @@ services:
       - POSTGRES_PASSWORD=$YOUR_PASSWORD
       - POSTGRES_DB=$YOUR_DB_NAME
     ports:
-      - "$POSTGRES_DOCKER_PORT:5432"
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -93,7 +93,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=oauth2,zipkin
     ports:
-      - "8082:8080"
+      - "8084:8080"
 
 volumes:
   pgdata:
