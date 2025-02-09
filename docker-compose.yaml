@@ -48,6 +48,16 @@ services:
     depends_on:
       - elasticsearch
 
+  authorization-server:
+    image: 'agusramdan/authorization-server:latest'
+    build:
+      context: .
+    container_name: authorization-server
+    depends_on:
+      - db_postgres
+    ports:
+      - "9000:9000"
+
   app_bmps_service:
     image: 'agusramdan/app_bmps_service:latest'
     build:
@@ -68,24 +78,20 @@ services:
       - KEYCLOAK_RESOURCE=${APP_BPMS_KC_RESOURCE:-bpms}
       - KEYCLOAK_REALM=${APP_BPMS_KC_REALM:-demo}
       - KEYCLOAK_AUTH_SERVER_URL=${APP_BPMS_KC_AUTH_SERVER_URL:-https://merahputih-id.tech:9443/auth}
-
     ports:
       - "$APP_BMPS_DOCKER_PORT:8080"
 
-  apicdmservice:
+  api-cdm-service:
     image: 'agusramdan/api-cdm-service:latest'
     build:
       context: .
-    container_name: apicdmservice
+    container_name: api-cdm-service
     depends_on:
       - app_bmps_service
       - zipkin
       - logstash
     environment:
-      - SPRING_PROFILES_ACTIVE=$PROFILES_ACTIVE
-      - KEYCLOAK_RESOURCE=${APP_BPMS_KC_RESOURCE:-bpms}
-      - KEYCLOAK_REALM=${APP_BPMS_KC_REALM:-demo}
-      - KEYCLOAK_AUTH_SERVER_URL=${APP_BPMS_KC_AUTH_SERVER_URL:-https://merahputih-id.tech:9443/auth}
+      - SPRING_PROFILES_ACTIVE=oauth2,zipkin
     ports:
       - "8082:8080"
 
