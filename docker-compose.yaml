@@ -96,6 +96,7 @@ services:
       - zipkin
       - logstash
     environment:
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://merahputih-id.tech:9000
       - SPRING_PROFILES_ACTIVE=oauth2,zipkin
       - JAVA_OPTS="-Xms50M -Xmx50M"
     ports:
