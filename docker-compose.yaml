@@ -18,6 +18,8 @@ services:
     container_name: zipkin
     ports:
       - "9411:9411"
+    environment:
+      - JAVA_OPTS="-Xms50M -Xmx50M"
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.15.1
@@ -57,6 +59,8 @@ services:
       - db_postgres
     ports:
       - "9000:9000"
+    environment:
+      - JAVA_OPTS="-Xms50M -Xmx50M"
 
   app_bmps_service:
     image: 'agusramdan/app_bmps_service:latest'
@@ -68,13 +72,14 @@ services:
       - zipkin
       - logstash
     environment:
+      - SPRING_PROFILES_ACTIVE=$PROFILES_ACTIVE
+      - JAVA_OPTS="-Xms50M -Xmx50M"
       - POSTGRES_USER=$YOUR_USERNAME
       - POSTGRES_PASSWORD=$YOUR_PASSWORD
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db_postgres:5432/$YOUR_DB_NAME
       - SPRING_DATASOURCE_USERNAME=$YOUR_USERNAME
       - SPRING_DATASOURCE_PASSWORD=$YOUR_PASSWORD
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - SPRING_PROFILES_ACTIVE=$PROFILES_ACTIVE
       - KEYCLOAK_RESOURCE=${APP_BPMS_KC_RESOURCE:-bpms}
       - KEYCLOAK_REALM=${APP_BPMS_KC_REALM:-demo}
       - KEYCLOAK_AUTH_SERVER_URL=${APP_BPMS_KC_AUTH_SERVER_URL:-https://merahputih-id.tech:9443/auth}
@@ -92,6 +97,7 @@ services:
       - logstash
     environment:
       - SPRING_PROFILES_ACTIVE=oauth2,zipkin
+      - JAVA_OPTS="-Xms50M -Xmx50M"
     ports:
       - "8084:8080"
 
