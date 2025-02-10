@@ -18,8 +18,6 @@ services:
     container_name: zipkin
     ports:
       - "9411:9411"
-    environment:
-      - JAVA_OPTS="-Xms50M -Xmx50M"
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.15.1
@@ -27,7 +25,6 @@ services:
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
-      - JAVA_OPTS="-Xms516M -Xmx516M"
     ports:
       - "9200:9200"
 
