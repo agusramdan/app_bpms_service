@@ -58,7 +58,7 @@ services:
     ports:
       - "9000:9000"
     environment:
-      - JAVA_OPTS="-Xms516M -Xmx516M"
+      - JAVA_OPTS="-Xms256M -Xmx256M"
 
   app_bmps_service:
     image: 'agusramdan/app_bmps_service:latest'
@@ -71,7 +71,7 @@ services:
       - logstash
     environment:
       - SPRING_PROFILES_ACTIVE=$PROFILES_ACTIVE
-      - JAVA_OPTS="-Xms516M -Xmx516M"
+      - JAVA_OPTS="-Xms256M -Xmx256M"
       - POSTGRES_USER=$YOUR_USERNAME
       - POSTGRES_PASSWORD=$YOUR_PASSWORD
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db_postgres:5432/$YOUR_DB_NAME
@@ -94,7 +94,7 @@ services:
       - logstash
     environment:
       - SPRING_PROFILES_ACTIVE=dev,zipkin
-      - JAVA_OPTS="-Xms516M -Xmx516M"
+      - JAVA_OPTS="-Xms256M -Xmx256M"
       - POSTGRES_USER=$YOUR_USERNAME
       - POSTGRES_PASSWORD=$YOUR_PASSWORD
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db_postgres:5432/$YOUR_DB_NAME
@@ -117,7 +117,7 @@ services:
     environment:
       - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://merahputih-id.tech:9000
       - SPRING_PROFILES_ACTIVE=oauth2,zipkin
-      - JAVA_OPTS="-Xms516M -Xmx516M"
+      - JAVA_OPTS="-Xms256M -Xmx256M"
     ports:
       - "8084:8080"
 
