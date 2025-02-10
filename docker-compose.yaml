@@ -101,8 +101,9 @@ services:
       - SPRING_DATASOURCE_USERNAME=$YOUR_USERNAME
       - SPRING_DATASOURCE_PASSWORD=$YOUR_PASSWORD
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SERVER_PORT=8094
     ports:
-      - "8081:8080"
+      - "8094:8094"
 
   api-cdm-service:
     image: 'agusramdan/api-cdm-service:latest'
