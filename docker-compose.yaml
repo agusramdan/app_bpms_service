@@ -27,6 +27,7 @@ services:
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
+      - JAVA_OPTS="-Xms516M -Xmx516M"
     ports:
       - "9200:9200"
 
@@ -60,7 +61,7 @@ services:
     ports:
       - "9000:9000"
     environment:
-      - JAVA_OPTS="-Xms50M -Xmx50M"
+      - JAVA_OPTS="-Xms516M -Xmx516M"
 
   app_bmps_service:
     image: 'agusramdan/app_bmps_service:latest'
@@ -73,7 +74,7 @@ services:
       - logstash
     environment:
       - SPRING_PROFILES_ACTIVE=$PROFILES_ACTIVE
-      - JAVA_OPTS="-Xms50M -Xmx50M"
+      - JAVA_OPTS="-Xms516M -Xmx516M"
       - POSTGRES_USER=$YOUR_USERNAME
       - POSTGRES_PASSWORD=$YOUR_PASSWORD
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db_postgres:5432/$YOUR_DB_NAME
@@ -86,6 +87,26 @@ services:
     ports:
       - "8080:8080"
 
+  api-cdm-core-service:
+    image: 'agusramdan/api-cdm_core-service:latest'
+    build:
+      context: .
+    container_name: api-cdm-core-service
+    depends_on:
+      - zipkin
+      - logstash
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev,zipkin
+      - JAVA_OPTS="-Xms516M -Xmx516M"
+      - POSTGRES_USER=$YOUR_USERNAME
+      - POSTGRES_PASSWORD=$YOUR_PASSWORD
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db_postgres:5432/$YOUR_DB_NAME
+      - SPRING_DATASOURCE_USERNAME=$YOUR_USERNAME
+      - SPRING_DATASOURCE_PASSWORD=$YOUR_PASSWORD
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - "8081:8080"
+
   api-cdm-service:
     image: 'agusramdan/api-cdm-service:latest'
     build:
@@ -93,12 +114,13 @@ services:
     container_name: api-cdm-service
     depends_on:
       - app_bmps_service
+      - api-cdm-core-service
       - zipkin
       - logstash
     environment:
       - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://merahputih-id.tech:9000
       - SPRING_PROFILES_ACTIVE=oauth2,zipkin
-      - JAVA_OPTS="-Xms50M -Xmx50M"
+      - JAVA_OPTS="-Xms516M -Xmx516M"
     ports:
       - "8084:8080"
 
