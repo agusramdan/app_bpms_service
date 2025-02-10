@@ -93,7 +93,7 @@ services:
       - zipkin
       - logstash
     environment:
-      - SPRING_PROFILES_ACTIVE=dev,zipkin
+      - SPRING_PROFILES_ACTIVE=zipkin
       - JAVA_OPTS="-Xms256M -Xmx256M"
       - POSTGRES_USER=$YOUR_USERNAME
       - POSTGRES_PASSWORD=$YOUR_PASSWORD
