@@ -18,6 +18,8 @@ services:
     container_name: zipkin
     ports:
       - "9411:9411"
+    environment:
+      - JAVA_OPTS="-Xms128M -Xmx128M"
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.1
@@ -25,6 +27,7 @@ services:
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
+      - JAVA_OPTS="-Xms256M -Xmx256M"
     ports:
       - "9200:9200"
 
@@ -39,6 +42,8 @@ services:
       - "9600:9600"
     depends_on:
       - elasticsearch
+    environment:
+      - JAVA_OPTS="-Xms256M -Xmx256M"
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.17.1
@@ -47,6 +52,8 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
+    environment:
+      - JAVA_OPTS="-Xms256M -Xmx256M"
 
   authorization-server:
     image: 'agusramdan/authorization-server:latest'
@@ -58,7 +65,7 @@ services:
     ports:
       - "9000:9000"
     environment:
-      - JAVA_OPTS="-Xms256M -Xmx256M"
+      - JAVA_OPTS="-Xms128M -Xmx128M"
 
   api-cdt-core-master-service:
     image: 'agusramdan/api-cdt-core-master-service:dev'
@@ -70,7 +77,7 @@ services:
       - logstash
     environment:
       - SPRING_PROFILES_ACTIVE=zipkin
-      - JAVA_OPTS="-Xms256M -Xmx256M"
+      - JAVA_OPTS="-Xms128M -Xmx128M"
       - POSTGRES_USER=$YOUR_USERNAME
       - POSTGRES_PASSWORD=$YOUR_PASSWORD
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db_postgres:5432/$YOUR_DB_NAME
@@ -87,7 +94,7 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
     environment:
       - SPRING_PROFILES_ACTIVE=zipkin
-      - JAVA_OPTS="-Xms256M -Xmx256M"
+      - JAVA_OPTS="-Xms128M -Xmx128M"
       - POSTGRES_USER=$YOUR_USERNAME
       - POSTGRES_PASSWORD=$YOUR_PASSWORD
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db_postgres:5432/$YOUR_DB_NAME
