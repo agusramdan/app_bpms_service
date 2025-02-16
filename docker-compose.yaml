@@ -105,8 +105,8 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     depends_on:
-      - api-cdm-core-master-service
-      - api-cdm-core-trx-service
+      - api-cdt-core-master-service
+      - api-cdt-core-trx-service
       - zipkin
       - logstash
     environment:
