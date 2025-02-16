@@ -105,7 +105,6 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     depends_on:
-      - app_bmps_service
       - api-cdm-core-service
       - zipkin
       - logstash
