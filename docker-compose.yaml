@@ -148,9 +148,13 @@ services:
     container_name: api-cdt-cdm-service
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+      - "app=api-cdt-cdm-service"
+      - "tier=backend"
+      - "env=dev"
+      - "maintainer=agus"
       - "traefik.enable=true"
-      - "traefik.http.routers.cdm-service.rule=Host(`cdm-service.local`)"
-      - "traefik.http.services.cdm-service.loadbalancer.server.port=8080"
+      - "traefik.http.routers.cdm.rule=Host(`cdm-service.local`)"
+      - "traefik.http.services.cdm.loadbalancer.server.port=8080"
     depends_on:
       - api-cdt-core-master-service
       - api-cdt-core-trx-service
