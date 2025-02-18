@@ -153,7 +153,7 @@ services:
       - "env=dev"
       - "maintainer=agus"
       - "traefik.enable=true"
-      - "traefik.http.routers.cdm.rule=Host(`cdm-service.local`)"
+      - "traefik.http.routers.cdm.rule=Host(`cdm.local`)"
       - "traefik.http.services.cdm.loadbalancer.server.port=8080"
     depends_on:
       - api-cdt-core-master-service
