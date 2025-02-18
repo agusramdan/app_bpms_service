@@ -150,7 +150,7 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"
       - "traefik.http.routers.cdm-service.rule=Host(`cdm-service.local`)"
-      - "traefik.http.services.cdm-service.loadbalancer.server.port=27017"
+      - "traefik.http.services.cdm-service.loadbalancer.server.port=8080"
     depends_on:
       - api-cdt-core-master-service
       - api-cdt-core-trx-service
