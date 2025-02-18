@@ -167,6 +167,32 @@ services:
     ports:
       - "8091:8080"
 
+  api-cdt-event-service:
+    image: 'agusramdan/api-cdt-event-service:dev'
+    build:
+      context: .
+    container_name: api-cdt-event-service
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "app=api-cdt-event-service"
+      - "tier=backend"
+      - "env=dev"
+      - "maintainer=agus"
+      - "traefik.enable=true"
+      - "traefik.http.routers.event.rule=Host(`event.local`)"
+      - "traefik.http.services.event.loadbalancer.server.port=8080"
+    depends_on:
+      - kafka
+      - mongodb
+      - zipkin
+      - logstash
+    environment:
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://merahputih-id.tech:9000
+      - SPRING_PROFILES_ACTIVE=oauth2,zipkin
+      - JAVA_OPTS="-Xms128M -Xmx128M"
+    ports:
+      - "8099:8080"
+
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
