@@ -104,29 +104,10 @@ services:
     environment:
       - JAVA_OPTS="-Xms128M -Xmx128M"
 
-  api-cdt-core-master-service:
-    image: 'agusramdan/api-cdt-core-master-service:dev'
-    build:
-      context: .
-    container_name: api-cdt-core-master-service
-    depends_on:
-      - zipkin
-      - logstash
-    environment:
-      - SPRING_PROFILES_ACTIVE=zipkin
-      - JAVA_OPTS="-Xms128M -Xmx128M"
-      - POSTGRES_USER=$YOUR_USERNAME
-      - POSTGRES_PASSWORD=$YOUR_PASSWORD
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db_postgres:5432/$YOUR_DB_NAME
-      - SPRING_DATASOURCE_USERNAME=$YOUR_USERNAME
-      - SPRING_DATASOURCE_PASSWORD=$YOUR_PASSWORD
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    ports:
-      - "8083:8080"
 
-  api-cdt-core-trx-service:
-    image: 'agusramdan/api-cdt-core-trx-service:dev'
-    container_name: api-cdt-core-trx-service
+  api-cdt-core-service:
+    image: 'agusramdan/api-cdt-core-service:dev'
+    container_name: api-cdt-core-service
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     environment:
@@ -140,6 +121,11 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:
       - "8082:8080"
+    depends_on:
+      - db_postgres
+      - zipkin
+      - logstash
+      - kafka
 
   api-cdt-cdm-service:
     image: 'agusramdan/api-cdt-cdm-service:dev'
@@ -156,10 +142,11 @@ services:
       - "traefik.http.routers.cdm.rule=Host(`cdm.local`)"
       - "traefik.http.services.cdm.loadbalancer.server.port=8080"
     depends_on:
-      - api-cdt-core-master-service
-      - api-cdt-core-trx-service
+      - api-cdt-core-service
       - zipkin
       - logstash
+      - kafka
+      - mongodb
     environment:
       - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://merahputih-id.tech:9000
       - SPRING_PROFILES_ACTIVE=oauth2,zipkin
