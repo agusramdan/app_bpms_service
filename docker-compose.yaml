@@ -18,6 +18,7 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_CREATE_TOPICS: "event-log-topic:1:1,terminal-status-topic:1:1,raw-data-topic:1:1,raw-process-topic:1:1,drop-data-topic:1:1,raw-list-topic:1:1,raw-map-topic:1:1,terminal-event-topic:1:1"
     depends_on:
       - zookeeper
 
@@ -42,9 +43,9 @@ services:
     image: postgres
     container_name: db_postgres
     environment:
-      - POSTGRES_USER=$YOUR_USERNAME
-      - POSTGRES_PASSWORD=$YOUR_PASSWORD
-      - POSTGRES_DB=$YOUR_DB_NAME
+      - POSTGRES_USER=${YOUR_USERNAME:-core_user}
+      - POSTGRES_PASSWORD=${YOUR_PASSWORD:-core_password}
+      - POSTGRES_DB=${YOUR_DB_NAME:-core_db}
     ports:
       - "5432:5432"
     volumes:
@@ -111,13 +112,12 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     environment:
-      - SPRING_PROFILES_ACTIVE=zipkin
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://merahputih-id.tech:9000
+      - SPRING_PROFILES_ACTIVE=oauth2,zipkin,dev
       - JAVA_OPTS="-Xms128M -Xmx128M"
-      - POSTGRES_USER=$YOUR_USERNAME
-      - POSTGRES_PASSWORD=$YOUR_PASSWORD
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db_postgres:5432/$YOUR_DB_NAME
-      - SPRING_DATASOURCE_USERNAME=$YOUR_USERNAME
-      - SPRING_DATASOURCE_PASSWORD=$YOUR_PASSWORD
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db_postgres:5432/${YOUR_DB_NAME:-core_db}
+      - SPRING_DATASOURCE_USERNAME=${YOUR_USERNAME:-core_user}
+      - SPRING_DATASOURCE_PASSWORD=${YOUR_PASSWORD:-core_password}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:
       - "8082:8080"
@@ -142,10 +142,6 @@ services:
       - "traefik.http.routers.cdm.rule=Host(`cdm.local`)"
       - "traefik.http.services.cdm.loadbalancer.server.port=8080"
     depends_on:
-      - api-cdt-core-service
-      - zipkin
-      - logstash
-      - kafka
       - mongodb
     environment:
       - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://merahputih-id.tech:9000
@@ -179,6 +175,31 @@ services:
       - JAVA_OPTS="-Xms128M -Xmx128M"
     ports:
       - "8099:8080"
+
+  api-cdt-gateway-service:
+    image: 'agusramdan/api-cdt-gateway-service:dev'
+    build:
+      context: .
+    container_name: api-cdt-gateway-service
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "app=api-cdt-gateway-service"
+      - "tier=backend"
+      - "env=dev"
+      - "maintainer=agus"
+      - "traefik.enable=true"
+      - "traefik.http.routers.event.rule=Host(`event.local`)"
+      - "traefik.http.services.event.loadbalancer.server.port=8080"
+    depends_on:
+      - mongodb
+      - zipkin
+      - logstash
+    environment:
+      #- SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://merahputih-id.tech:9000
+      - SPRING_PROFILES_ACTIVE=zipkin
+      - JAVA_OPTS="-Xms128M -Xmx128M"
+    ports:
+      - "8097:8080"
 
   watchtower:
     image: containrrr/watchtower
