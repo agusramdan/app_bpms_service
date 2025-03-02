@@ -112,8 +112,7 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     environment:
-      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://merahputih-id.tech:9000
-      - SPRING_PROFILES_ACTIVE=oauth2,zipkin,dev
+      - SPRING_PROFILES_ACTIVE=zipkin
       - JAVA_OPTS="-Xms128M -Xmx128M"
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db_postgres:5432/${YOUR_DB_NAME:-core_db}
       - SPRING_DATASOURCE_USERNAME=${YOUR_USERNAME:-core_user}
